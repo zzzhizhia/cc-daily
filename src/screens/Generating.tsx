@@ -44,7 +44,7 @@ export function Generating({ date, onComplete, onError }: Props) {
       });
 
       if (result.projects.length === 0) {
-        onError('该日期无 Claude Code 活动记录');
+        onError('No Claude Code activity found for this date');
         return;
       }
 

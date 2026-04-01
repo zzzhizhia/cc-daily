@@ -51,7 +51,7 @@ export async function run(args: RunArgs): Promise<void> {
   });
 
   if (result.projects.length === 0) {
-    console.error('该日期无 Claude Code 活动记录');
+    console.error('No Claude Code activity found for this date');
     process.exit(1);
   }
 
@@ -79,7 +79,7 @@ export async function run(args: RunArgs): Promise<void> {
 async function runRaw(date: string): Promise<void> {
   const result = await extract(date);
   if (result.projects.length === 0) {
-    console.error('该日期无 Claude Code 活动记录');
+    console.error('No Claude Code activity found for this date');
     process.exit(1);
   }
 

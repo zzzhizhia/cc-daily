@@ -279,9 +279,9 @@ export function ReportList({ error, onGenerate, onView }: Props) {
 
           {/* Legend */}
           <Box marginTop={1}>
-            <Text color="cyan" bold>27 </Text><Text dimColor>已生成  </Text>
-            <Text color="white">27 </Text><Text dimColor>有活动  </Text>
-            <Text dimColor>27 无活动</Text>
+            <Text color="cyan" bold>27 </Text><Text dimColor>Generated  </Text>
+            <Text color="white">27 </Text><Text dimColor>Active  </Text>
+            <Text dimColor>27 No activity</Text>
           </Box>
         </Box>
 
@@ -294,27 +294,27 @@ export function ReportList({ error, onGenerate, onView }: Props) {
 
           {selectedReport ? (
             <Box flexDirection="column">
-              <Text color="green">● 已生成</Text>
+              <Text color="green">● Generated</Text>
               <Text> </Text>
-              <Text>项目: <Text bold>{selectedReport.frontmatter.projects.length}</Text></Text>
-              <Text>消息: <Text bold>{selectedReport.frontmatter.prompts}</Text></Text>
+              <Text>Projects: <Text bold>{selectedReport.frontmatter.projects.length}</Text></Text>
+              <Text>Messages: <Text bold>{selectedReport.frontmatter.prompts}</Text></Text>
               <Text>Focus: <Text dimColor>{selectedReport.frontmatter.focus}</Text></Text>
-              <Text>时段: <Text dimColor>{selectedReport.frontmatter.activeHours}</Text></Text>
+              <Text>Active: <Text dimColor>{selectedReport.frontmatter.activeHours}</Text></Text>
               <Text> </Text>
-              <Text color="cyan">Enter 查看</Text>
+              <Text color="cyan">Enter to view</Text>
             </Box>
           ) : selectedActivity ? (
             <Box flexDirection="column">
-              <Text color="yellow">○ 未生成</Text>
+              <Text color="yellow">○ Not generated</Text>
               <Text> </Text>
-              <Text>项目: <Text bold>{selectedActivity.projects}</Text></Text>
-              <Text>Session: <Text bold>{selectedActivity.sessions}</Text></Text>
+              <Text>Projects: <Text bold>{selectedActivity.projects}</Text></Text>
+              <Text>Sessions: <Text bold>{selectedActivity.sessions}</Text></Text>
               <Text> </Text>
-              <Text color="yellow">Enter 生成日报</Text>
+              <Text color="yellow">Enter to generate</Text>
             </Box>
           ) : (
             <Box flexDirection="column">
-              <Text dimColor>无活动记录</Text>
+              <Text dimColor>No activity</Text>
             </Box>
           )}
         </Box>
@@ -322,7 +322,7 @@ export function ReportList({ error, onGenerate, onView }: Props) {
 
       {/* Footer */}
       <Box marginTop={1}>
-        <Text dimColor>←→↑↓ 选日期 · [/] 切月 · t 今天 · Enter 打开 · q 退出</Text>
+        <Text dimColor>←→↑↓ select · [/] month · t today · Enter open · q quit</Text>
       </Box>
     </Box>
   );

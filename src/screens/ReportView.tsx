@@ -155,7 +155,7 @@ export function ReportView({ date, onBack, onRegenerate }: Props) {
 
 function MetaHeader({ meta }: { meta: ReportFrontmatter }) {
   const [, m, d] = meta.date.split('-');
-  const tweetable = `${Number(m)}/${Number(d)}: ${meta.projects.length}个项目 · ${meta.sessions}个session · ${meta.prompts}条消息`;
+  const tweetable = `${Number(m)}/${Number(d)}: ${meta.projects.length} projects · ${meta.sessions} sessions · ${meta.prompts} messages`;
 
   return (
     <Box flexDirection="column" marginBottom={1}>
@@ -167,7 +167,7 @@ function MetaHeader({ meta }: { meta: ReportFrontmatter }) {
       {/* Key-value pairs as inline chips */}
       <Box flexWrap="wrap" columnGap={2}>
         <Box>
-          <Text dimColor>活跃 </Text>
+          <Text dimColor>Active </Text>
           <Text>{meta.activeHours || '—'}</Text>
         </Box>
         <Box>

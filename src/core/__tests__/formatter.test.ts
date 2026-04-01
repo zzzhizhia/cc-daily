@@ -45,17 +45,17 @@ describe('generateHeader', () => {
     const lines = header.split('\n');
     // First line is the tweetable line
     expect(lines[0]).toContain('3/27');
-    expect(lines[0]).toContain('2个项目');
-    expect(lines[0]).toContain('5个session');
+    expect(lines[0]).toContain('2 projects');
+    expect(lines[0]).toContain('5 sessions');
     expect(lines[0]).toContain('myorg/myrepo');
   });
 
   it('generates markdown table with correct stats', () => {
     const header = generateHeader(makeMetadata(), '2026-03-27');
-    expect(header).toContain('| 项目数 | 2 |');
-    expect(header).toContain('| Session 数 | 5 |');
-    expect(header).toContain('| 消息数 | 42 |');
-    expect(header).toContain('| 活跃时段 | 10:00-12:00, 14:00-18:00 |');
+    expect(header).toContain('| Projects | 2 |');
+    expect(header).toContain('| Sessions | 5 |');
+    expect(header).toContain('| Messages | 42 |');
+    expect(header).toContain('| Active hours | 10:00-12:00, 14:00-18:00 |');
     expect(header).toContain('myorg/myrepo (60%)');
   });
 

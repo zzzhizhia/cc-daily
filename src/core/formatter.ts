@@ -15,17 +15,17 @@ export function generateHeader(metadata: Metadata, date: string): string {
   const datePart = `${Number(month)}/${Number(day)}`;
   const focusShort = shortName(metadata.focus.project);
 
-  const tweetable = `${datePart}: ${metadata.totalProjects}个项目 \u00b7 ${metadata.totalSessions}个session \u00b7 主要推进 ${focusShort}`;
+  const tweetable = `${datePart}: ${metadata.totalProjects} projects \u00b7 ${metadata.totalSessions} sessions \u00b7 Focus: ${focusShort}`;
 
   const focusDisplay = `${shortName(metadata.focus.project)} (${metadata.focus.percentage}%)`;
 
   const table = [
-    '| 指标 | 值 |',
+    '| Metric | Value |',
     '|------|-----|',
-    `| 项目数 | ${metadata.totalProjects} |`,
-    `| Session 数 | ${metadata.totalSessions} |`,
-    `| 消息数 | ${metadata.totalUserMessages} |`,
-    `| 活跃时段 | ${metadata.activeHours} |`,
+    `| Projects | ${metadata.totalProjects} |`,
+    `| Sessions | ${metadata.totalSessions} |`,
+    `| Messages | ${metadata.totalUserMessages} |`,
+    `| Active hours | ${metadata.activeHours} |`,
     `| Focus | ${focusDisplay} |`,
   ].join('\n');
 
@@ -87,7 +87,7 @@ const MAX_MSG_CHARS = 500;
 
 function truncateText(text: string): string {
   if (text.length <= MAX_MSG_CHARS) return text;
-  return text.slice(0, MAX_MSG_CHARS) + '...（截断）';
+  return text.slice(0, MAX_MSG_CHARS) + '... (truncated)';
 }
 
 function formatProjectSection(project: ProjectData): string {

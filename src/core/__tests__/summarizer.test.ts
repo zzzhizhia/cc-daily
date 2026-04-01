@@ -151,7 +151,7 @@ describe('summarize L1 (under budget)', () => {
     const result = await summarize(projects, meta, '2026-03-27');
 
     // No header in output — it's now rendered separately by the TUI
-    expect(result).not.toContain('个项目');
+    expect(result).not.toContain('| Metric |');
     expect(result).toContain('## Summary');
   });
 });
