@@ -6,14 +6,16 @@ import { checkAvailable } from '../core/claude.js';
 import { save } from '../utils/storage.js';
 import type { ProgressStep } from '../core/extractor.js';
 import type { ReportFrontmatter } from '../utils/storage.js';
+import type { Lang } from '../core/formatter.js';
 
 interface Props {
   date: string;
+  lang?: Lang;
   onComplete: (date: string) => void;
   onError: (message: string) => void;
 }
 
-export function Generating({ date, onComplete, onError }: Props) {
+export function Generating({ date, lang = 'zh', onComplete, onError }: Props) {
   const { stdout } = useStdout();
   const [steps, setSteps] = useState<string[]>([]);
   const [current, setCurrent] = useState('Starting...');
@@ -59,6 +61,7 @@ export function Generating({ date, onComplete, onError }: Props) {
             setCurrent(`◐ ${step.message}`);
           }
         },
+        lang,
       );
 
       const frontmatter: ReportFrontmatter = {

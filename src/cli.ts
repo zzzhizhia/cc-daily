@@ -22,11 +22,12 @@ async function main() {
     date?: string;
     force: boolean;
     raw: boolean;
+    lang: 'zh' | 'en';
     interactive: boolean;
   }
 
   function parseArgs(argv: string[]): ParsedArgs {
-    const result: ParsedArgs = { force: false, raw: false, interactive: false };
+    const result: ParsedArgs = { force: false, raw: false, lang: 'zh', interactive: false };
 
     for (let i = 0; i < argv.length; i++) {
       switch (argv[i]) {
@@ -38,6 +39,18 @@ async function main() {
           break;
         case '--raw':
           result.raw = true;
+          break;
+        case '--lang': {
+          const v = argv[++i];
+          if (v !== 'zh' && v !== 'en') {
+            console.error(`Invalid --lang value: ${v} (expected: zh or en)`);
+            process.exit(1);
+          }
+          result.lang = v;
+          break;
+        }
+        case '--en':
+          result.lang = 'en';
           break;
         default:
           console.error(`Unknown argument: ${argv[i]}`);
@@ -53,9 +66,9 @@ async function main() {
 
   if (parsed.interactive) {
     const { default: startApp } = await import('./app.js');
-    startApp();
+    startApp(parsed.lang);
   } else {
     const { run } = await import('./pipeline.js');
-    await run({ date: parsed.date, force: parsed.force, raw: parsed.raw });
+    await run({ date: parsed.date, force: parsed.force, raw: parsed.raw, lang: parsed.lang });
   }
 }

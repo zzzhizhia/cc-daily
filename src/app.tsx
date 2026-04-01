@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { render, Box } from 'ink';
+import { render } from 'ink';
 import { ReportList } from './screens/ReportList.js';
 import { Generating } from './screens/Generating.js';
 import { ReportView } from './screens/ReportView.js';
+import type { Lang } from './core/formatter.js';
 
 type Screen =
   | { name: 'list' }
   | { name: 'generating'; date: string }
   | { name: 'view'; date: string };
 
-function App() {
+function App({ lang }: { lang: Lang }) {
   const [screen, setScreen] = useState<Screen>({ name: 'list' });
   const [error, setError] = useState<string | null>(null);
 
@@ -32,6 +33,7 @@ function App() {
       return (
         <Generating
           date={screen.date}
+          lang={lang}
           onComplete={(date) => setScreen({ name: 'view', date })}
           onError={(msg) => {
             setError(msg);
@@ -50,6 +52,6 @@ function App() {
   }
 }
 
-export default function startApp() {
-  render(<App />);
+export default function startApp(lang: Lang = 'zh') {
+  render(<App lang={lang} />);
 }

@@ -10,10 +10,13 @@ import { render as renderMd } from './utils/markdown.js';
 import type { ProgressStep } from './core/extractor.js';
 import type { ReportFrontmatter } from './utils/storage.js';
 
+import type { Lang } from './core/formatter.js';
+
 export interface RunArgs {
   date?: string;
   force?: boolean;
   raw?: boolean;
+  lang?: Lang;
 }
 
 export async function run(args: RunArgs): Promise<void> {
@@ -56,7 +59,8 @@ export async function run(args: RunArgs): Promise<void> {
   }
 
   // Summarize
-  const markdown = await summarize(result.projects, result.metadata, date);
+  const lang = args.lang ?? 'zh';
+  const markdown = await summarize(result.projects, result.metadata, date, undefined, lang);
 
   // Save
   const frontmatter: ReportFrontmatter = {

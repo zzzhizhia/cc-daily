@@ -78,14 +78,14 @@ describe('formatPrompt', () => {
     const meta = makeMetadata();
     const prompt = formatPrompt(projects, meta);
 
-    expect(prompt).toContain('2 个项目');
-    expect(prompt).toContain('5 个 session');
-    expect(prompt).toContain('42 条消息');
+    expect(prompt).toContain('2 projects');
+    expect(prompt).toContain('5 sessions');
+    expect(prompt).toContain('42 messages');
   });
 
   it('includes system instruction', () => {
     const prompt = formatPrompt([makeProject()], makeMetadata());
-    expect(prompt).toContain('资深工程师');
+    expect(prompt).toContain('senior engineer');
     expect(prompt).toContain('standup');
   });
 
@@ -127,7 +127,7 @@ describe('formatProjectPrompt', () => {
 
   it('includes system instruction', () => {
     const prompt = formatProjectPrompt(makeProject());
-    expect(prompt).toContain('资深工程师');
+    expect(prompt).toContain('senior engineer');
     expect(prompt).toContain('bullet points');
   });
 

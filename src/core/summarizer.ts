@@ -4,6 +4,7 @@ import type {
   ProgressStep,
 } from './extractor.js';
 import { formatPrompt, formatProjectPrompt, mergeResults } from './formatter.js';
+import type { Lang } from './formatter.js';
 import { invoke, ClaudeError, RateLimitError } from './claude.js';
 
 export const TOKEN_BUDGET = 150_000;
@@ -35,6 +36,7 @@ export async function summarize(
   metadata: Metadata,
   _date: string,
   onProgress?: (step: ProgressStep) => void,
+  lang: Lang = 'zh',
 ): Promise<string> {
   onProgress?.({ type: 'summarizing', message: 'Summarizing with Claude...' });
 
@@ -43,18 +45,18 @@ export async function summarize(
   if (totalTokens < TOKEN_BUDGET) {
     // L1: single call with all projects
     try {
-      const prompt = formatPrompt(projects, metadata);
+      const prompt = formatPrompt(projects, metadata, lang);
       return await invoke(prompt);
     } catch (err) {
       // Fallback to L2 on non-rate-limit errors
       if (err instanceof ClaudeError && !(err instanceof RateLimitError)) {
-        return await splitByProject(projects, metadata, onProgress);
+        return await splitByProject(projects, metadata, onProgress, lang);
       }
       throw err;
     }
   } else {
     // L2/L3: split by project
-    return await splitByProject(projects, metadata, onProgress);
+    return await splitByProject(projects, metadata, onProgress, lang);
   }
 }
 
@@ -63,6 +65,7 @@ async function splitByProject(
   projects: ProjectData[],
   _metadata: Metadata,
   onProgress?: (step: ProgressStep) => void,
+  lang: Lang = 'zh',
 ): Promise<string> {
   let concurrency = MAX_CONCURRENCY;
 
@@ -72,10 +75,10 @@ async function splitByProject(
 
       if (projectTokens >= TOKEN_BUDGET) {
         // L3: split this project by sessions
-        return await splitProjectBySessions(project);
+        return await splitProjectBySessions(project, lang);
       }
 
-      const prompt = formatProjectPrompt(project);
+      const prompt = formatProjectPrompt(project, lang);
       return await invokeWithRetry(prompt, () => {
         // On rate limit, reduce concurrency for subsequent tasks
         concurrency = 1;
@@ -96,6 +99,7 @@ async function splitByProject(
 /** L3: split a single large project into session chunks */
 async function splitProjectBySessions(
   project: ProjectData,
+  lang: Lang = 'zh',
 ): Promise<string> {
   // Collect all sessions (main + worktree)
   interface TaggedSession {
@@ -164,7 +168,7 @@ async function splitProjectBySessions(
       })),
     };
 
-    const prompt = formatProjectPrompt(miniProject);
+    const prompt = formatProjectPrompt(miniProject, lang);
     const result = await invokeWithRetry(prompt);
     chunkResults.push(result);
   }
