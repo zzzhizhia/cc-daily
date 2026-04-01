@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { render } from 'ink';
 import { ReportList } from './screens/ReportList.js';
 import { Generating } from './screens/Generating.js';
@@ -10,15 +10,20 @@ type Screen =
   | { name: 'generating'; date: string }
   | { name: 'view'; date: string };
 
-function App({ lang }: { lang: Lang }) {
+function App({ initialLang }: { initialLang: Lang }) {
   const [screen, setScreen] = useState<Screen>({ name: 'list' });
   const [error, setError] = useState<string | null>(null);
+  const [lang, setLang] = useState<Lang>(initialLang);
+
+  const toggleLang = () => setLang((l) => (l === 'zh' ? 'en' : 'zh'));
 
   switch (screen.name) {
     case 'list':
       return (
         <ReportList
+          lang={lang}
           error={error}
+          onToggleLang={toggleLang}
           onGenerate={(date) => {
             setError(null);
             setScreen({ name: 'generating', date });
@@ -53,5 +58,5 @@ function App({ lang }: { lang: Lang }) {
 }
 
 export default function startApp(lang: Lang = 'zh') {
-  render(<App lang={lang} />);
+  render(<App initialLang={lang} />);
 }

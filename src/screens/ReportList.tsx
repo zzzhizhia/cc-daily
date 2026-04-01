@@ -5,11 +5,14 @@ import { scanActiveDates } from '../core/extractor.js';
 import type { ActiveDate } from '../core/extractor.js';
 import type { Report } from '../utils/storage.js';
 import { getToday, formatDate } from '../utils/date.js';
+import type { Lang } from '../core/formatter.js';
 
 // --- Types ---
 
 interface Props {
+  lang: Lang;
   error: string | null;
+  onToggleLang: () => void;
   onGenerate: (date: string) => void;
   onView: (date: string) => void;
 }
@@ -38,7 +41,7 @@ function dateStr(year: number, month: number, day: number): string {
 
 // --- Component ---
 
-export function ReportList({ error, onGenerate, onView }: Props) {
+export function ReportList({ lang, error, onToggleLang, onGenerate, onView }: Props) {
   const { exit } = useApp();
   const { stdout } = useStdout();
 
@@ -104,6 +107,12 @@ export function ReportList({ error, onGenerate, onView }: Props) {
   useInput((input, key) => {
     if (input === 'q') {
       exit();
+      return;
+    }
+
+    // Language toggle
+    if (input === 'e' || input === 'c') {
+      onToggleLang();
       return;
     }
 
@@ -190,7 +199,8 @@ export function ReportList({ error, onGenerate, onView }: Props) {
       {/* Header */}
       <Box marginBottom={1}>
         <Text bold color="cyan">cc-daily</Text>
-        <Text dimColor> — Claude Code Daily Reports</Text>
+        <Text dimColor> — Claude Code Daily Reports </Text>
+        <Text color={lang === 'en' ? 'green' : 'yellow'}>[{lang.toUpperCase()}]</Text>
       </Box>
 
       {error && (
@@ -322,7 +332,7 @@ export function ReportList({ error, onGenerate, onView }: Props) {
 
       {/* Footer */}
       <Box marginTop={1}>
-        <Text dimColor>←→↑↓ select · [/] month · t today · Enter open · q quit</Text>
+        <Text dimColor>←→↑↓ select · [/] month · t today · e/c lang · Enter open · q quit</Text>
       </Box>
     </Box>
   );
