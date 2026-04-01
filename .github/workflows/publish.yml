@@ -4,12 +4,6 @@ on:
   push:
     tags:
       - 'v*'
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version to publish (e.g. 0.2.0). Leave empty to use package.json'
-        required: false
-        type: string
 
 jobs:
   publish:
@@ -27,11 +21,8 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       - run: pnpm install --frozen-lockfile
-
-      - name: Set version (manual trigger only)
-        if: github.event.inputs.version != ''
-        run: npm version ${{ github.event.inputs.version }} --no-git-tag-version
-
       - run: pnpm build
       - run: pnpm test
-      - run: pnpm publish --access public --no-git-checks --provenance
+
+      # Use npm (not pnpm) for publish — npm handles OIDC trusted publishing natively
+      - run: npm publish --provenance --access public
