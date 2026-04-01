@@ -189,7 +189,7 @@ export function ReportList({ error, onGenerate, onView }: Props) {
     >
       {/* Header */}
       <Box marginBottom={1}>
-        <Text bold color="cyan">ccreport</Text>
+        <Text bold color="cyan">cc-daily</Text>
         <Text dimColor> — Claude Code Daily Reports</Text>
       </Box>
 

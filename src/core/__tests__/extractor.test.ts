@@ -72,7 +72,7 @@ function assistantMixedEntry(): object {
 }
 
 beforeEach(async () => {
-  tmpBase = await mkdtemp(join(tmpdir(), 'ccreport-ext-'));
+  tmpBase = await mkdtemp(join(tmpdir(), 'cc-daily-ext-'));
   fakeHome = tmpBase;
   // Create .claude directory structure
   await mkdir(join(fakeHome, '.claude'), { recursive: true });
