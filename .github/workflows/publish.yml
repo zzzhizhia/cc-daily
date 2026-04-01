@@ -16,14 +16,11 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
-          registry-url: https://registry.npmjs.org
+          # No registry-url — it creates .npmrc that conflicts with OIDC
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
-
-      # Clear the placeholder token from actions/setup-node so npm uses OIDC exchange
-      - run: npm config delete //registry.npmjs.org/:_authToken || true
-      - run: npm publish --provenance --access public
+      - run: npm publish --access public
