@@ -140,20 +140,19 @@ describe('summarize L1 (under budget)', () => {
     const result = await summarize(projects, meta, '2026-03-27');
 
     expect(mockInvoke).toHaveBeenCalledOnce();
-    // Result should include the header AND the claude response
-    expect(result).toContain('3/27');
+    // Result is pure claude output (no header — header is rendered by Ink component)
     expect(result).toContain('## Summary');
   });
 
-  it('includes header with correct stats', async () => {
+  it('returns claude output without header', async () => {
     const projects = [makeProject('~/proj', ['msg'])];
     const meta = makeMetadata(projects);
 
     const result = await summarize(projects, meta, '2026-03-27');
 
-    // Header should contain tweetable line
-    expect(result).toContain('1个项目');
-    expect(result).toContain('1个session');
+    // No header in output — it's now rendered separately by the TUI
+    expect(result).not.toContain('个项目');
+    expect(result).toContain('## Summary');
   });
 });
 
@@ -175,7 +174,7 @@ describe('summarize L2 (split by project)', () => {
 
     // Should have called invoke once per project (2 calls)
     expect(mockInvoke).toHaveBeenCalledTimes(2);
-    expect(result).toContain('3/27');
+    expect(result).toContain('## ~/proj');
   });
 });
 

@@ -92,8 +92,9 @@ describe('formatPrompt', () => {
   it('includes project section with messages', () => {
     const prompt = formatPrompt([makeProject()], makeMetadata());
     expect(prompt).toContain('## ~/Developer/myorg/myrepo');
-    expect(prompt).toContain('[user] implement auth');
-    expect(prompt).toContain('[assistant] Done implementing auth module.');
+    // Only user messages are included (as blockquote), assistant messages are excluded
+    expect(prompt).toContain('> implement auth');
+    expect(prompt).not.toContain('[assistant]');
   });
 
   it('includes worktree sections', () => {
@@ -112,7 +113,7 @@ describe('formatPrompt', () => {
     });
     const prompt = formatPrompt([project], makeMetadata());
     expect(prompt).toContain('### Worktree: feature-x');
-    expect(prompt).toContain('[user] worktree msg');
+    expect(prompt).toContain('> worktree msg');
   });
 });
 
@@ -132,7 +133,7 @@ describe('formatProjectPrompt', () => {
 
   it('includes messages', () => {
     const prompt = formatProjectPrompt(makeProject());
-    expect(prompt).toContain('[user] implement auth');
+    expect(prompt).toContain('> implement auth');
   });
 });
 
