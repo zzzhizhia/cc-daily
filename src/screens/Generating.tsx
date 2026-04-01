@@ -15,7 +15,7 @@ interface Props {
   onError: (message: string) => void;
 }
 
-export function Generating({ date, lang = 'zh', onComplete, onError }: Props) {
+export function Generating({ date, lang = 'en', onComplete, onError }: Props) {
   const { stdout } = useStdout();
   const [steps, setSteps] = useState<string[]>([]);
   const [current, setCurrent] = useState('Starting...');

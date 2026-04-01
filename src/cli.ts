@@ -27,7 +27,7 @@ async function main() {
   }
 
   function parseArgs(argv: string[]): ParsedArgs {
-    const result: ParsedArgs = { force: false, raw: false, lang: 'zh', interactive: false };
+    const result: ParsedArgs = { force: false, raw: false, lang: 'en', interactive: false };
 
     for (let i = 0; i < argv.length; i++) {
       switch (argv[i]) {

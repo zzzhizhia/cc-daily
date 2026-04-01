@@ -57,6 +57,6 @@ function App({ initialLang }: { initialLang: Lang }) {
   }
 }
 
-export default function startApp(lang: Lang = 'zh') {
+export default function startApp(lang: Lang = 'en') {
   render(<App initialLang={lang} />);
 }

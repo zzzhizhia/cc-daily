@@ -106,7 +106,7 @@ const SYSTEM_PROMPTS: Record<Lang, string> = {
 };
 
 /** 4.2 Format the full prompt for a single claude -p call (all projects) */
-export function formatPrompt(projects: ProjectData[], metadata: Metadata, lang: Lang = 'zh'): string {
+export function formatPrompt(projects: ProjectData[], metadata: Metadata, lang: Lang = 'en'): string {
   const context = `<context>Today: ${metadata.totalProjects} projects, ${metadata.totalSessions} sessions, ${metadata.totalUserMessages} user messages.</context>`;
   const projectSections = projects.map(formatProjectSection);
 
@@ -114,7 +114,7 @@ export function formatPrompt(projects: ProjectData[], metadata: Metadata, lang: 
 }
 
 /** 4.3 Format a per-project prompt (for split mode) */
-export function formatProjectPrompt(project: ProjectData, lang: Lang = 'zh'): string {
+export function formatProjectPrompt(project: ProjectData, lang: Lang = 'en'): string {
   return [SYSTEM_PROMPTS[lang], '', '---', '', formatProjectSection(project)].join('\n');
 }
 

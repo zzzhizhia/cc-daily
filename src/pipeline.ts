@@ -59,7 +59,7 @@ export async function run(args: RunArgs): Promise<void> {
   }
 
   // Summarize
-  const lang = args.lang ?? 'zh';
+  const lang = args.lang ?? 'en';
   const markdown = await summarize(result.projects, result.metadata, date, undefined, lang);
 
   // Save

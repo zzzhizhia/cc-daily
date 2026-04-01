@@ -36,7 +36,7 @@ export async function summarize(
   metadata: Metadata,
   _date: string,
   onProgress?: (step: ProgressStep) => void,
-  lang: Lang = 'zh',
+  lang: Lang = 'en',
 ): Promise<string> {
   onProgress?.({ type: 'summarizing', message: 'Summarizing with Claude...' });
 
@@ -65,7 +65,7 @@ async function splitByProject(
   projects: ProjectData[],
   _metadata: Metadata,
   onProgress?: (step: ProgressStep) => void,
-  lang: Lang = 'zh',
+  lang: Lang = 'en',
 ): Promise<string> {
   let concurrency = MAX_CONCURRENCY;
 
@@ -99,7 +99,7 @@ async function splitByProject(
 /** L3: split a single large project into session chunks */
 async function splitProjectBySessions(
   project: ProjectData,
-  lang: Lang = 'zh',
+  lang: Lang = 'en',
 ): Promise<string> {
   // Collect all sessions (main + worktree)
   interface TaggedSession {
