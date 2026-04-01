@@ -80,13 +80,13 @@ describe('formatPrompt', () => {
 
     expect(prompt).toContain('2 projects');
     expect(prompt).toContain('5 sessions');
-    expect(prompt).toContain('42 messages');
+    expect(prompt).toContain('42 user messages');
   });
 
   it('includes system instruction', () => {
     const prompt = formatPrompt([makeProject()], makeMetadata());
-    expect(prompt).toContain('senior engineer');
-    expect(prompt).toContain('standup');
+    expect(prompt).toContain('Daily report assistant');
+    expect(prompt).toContain('NEVER copy raw text');
   });
 
   it('includes project section with messages', () => {
@@ -127,7 +127,7 @@ describe('formatProjectPrompt', () => {
 
   it('includes system instruction', () => {
     const prompt = formatProjectPrompt(makeProject());
-    expect(prompt).toContain('senior engineer');
+    expect(prompt).toContain('Daily report assistant');
     expect(prompt).toContain('bullet points');
   });
 
