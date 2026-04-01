@@ -4,8 +4,8 @@ import { tmpdir } from 'os';
 import { join } from 'path';
 import type { ReportFrontmatter } from '../storage.js';
 
-// We mock os.homedir so that getReportsDir() returns <tmpDir>/.ccreport/reports
-// (since getReportsDir = join(homedir(), '.ccreport', 'reports'))
+// We mock os.homedir so that getReportsDir() returns <tmpDir>/.cc-daily/reports
+// (since getReportsDir = join(homedir(), '.cc-daily', 'reports'))
 let fakeHome: string;
 let tmpBase: string;
 
@@ -34,7 +34,7 @@ function makeFrontmatter(overrides: Partial<ReportFrontmatter> = {}): ReportFron
 }
 
 beforeEach(async () => {
-  tmpBase = await mkdtemp(join(tmpdir(), 'ccreport-test-'));
+  tmpBase = await mkdtemp(join(tmpdir(), 'cc-daily-test-'));
   fakeHome = tmpBase;
 });
 
@@ -95,7 +95,7 @@ describe('list', () => {
 
   it('returns empty array when reports directory does not exist', async () => {
     // fakeHome already points to a fresh tmp dir but save hasn't been called,
-    // so .ccreport/reports doesn't exist yet
+    // so .cc-daily/reports doesn't exist yet
     const reports = await list();
     expect(reports).toEqual([]);
   });
@@ -146,7 +146,7 @@ describe('load with malformed content', () => {
 
 describe('save creates directory if not exists', () => {
   it('creates nested directory structure (mkdirp)', async () => {
-    // The .ccreport/reports dir doesn't exist yet in the fresh tmp home
+    // The .cc-daily/reports dir doesn't exist yet in the fresh tmp home
     expect(await exists('2026-03-27')).toBe(false);
     await save('2026-03-27', makeFrontmatter(), 'body');
     const report = await load('2026-03-27');

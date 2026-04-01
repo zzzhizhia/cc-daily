@@ -17,9 +17,9 @@ export interface Report {
   body: string;
 }
 
-/** Returns the reports directory path: ~/.ccreport/reports/ */
+/** Returns the reports directory path: ~/.cc-daily/reports/ */
 export function getReportsDir(): string {
-  return join(homedir(), '.ccreport', 'reports');
+  return join(homedir(), '.cc-daily', 'reports');
 }
 
 function reportPath(date: string): string {

@@ -50,7 +50,7 @@ cc-daily --raw -d 2026-03-27
 4. Computes metadata (focus project, active hours, session count)
 5. Sends user messages to `claude --model sonnet -p` for summarization
 6. Auto-splits by project (or by session) if text exceeds the token budget
-7. Saves reports to `~/.ccreport/reports/YYYY-MM-DD.md`
+7. Saves reports to `~/.cc-daily/reports/YYYY-MM-DD.md`
 
 ## Data Sources
 
@@ -59,7 +59,7 @@ cc-daily reads Claude Code's local data (read-only):
 - `~/.claude/history.jsonl` — global input history
 - `~/.claude/projects/<encoded>/<sessionId>.jsonl` — full conversation records
 
-Reports are stored at `~/.ccreport/reports/YYYY-MM-DD.md`.
+Reports are stored at `~/.cc-daily/reports/YYYY-MM-DD.md`.
 
 ## License
 
