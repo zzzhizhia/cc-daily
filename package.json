@@ -1,6 +1,6 @@
 {
   "name": "cc-daily",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Generate daily work reports from Claude Code conversation history",
   "type": "module",
   "bin": {

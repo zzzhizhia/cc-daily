@@ -18,9 +18,12 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-          # No registry-url — avoids .npmrc authToken placeholder that blocks OIDC
+          registry-url: https://registry.npmjs.org
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
+
+      # Clear the placeholder token from actions/setup-node so npm uses OIDC exchange
+      - run: npm config delete //registry.npmjs.org/:_authToken || true
       - run: npm publish --provenance --access public
