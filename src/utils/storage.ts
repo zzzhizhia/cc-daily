@@ -17,9 +17,10 @@ export interface Report {
   body: string;
 }
 
-/** Returns the reports directory path: ~/.cc-daily/reports/ */
+/** Returns the reports directory path. Honors $XDG_DATA_HOME, defaults to ~/.local/share/cc-daily/reports/ */
 export function getReportsDir(): string {
-  return join(homedir(), '.cc-daily', 'reports');
+  const dataHome = process.env.XDG_DATA_HOME || join(homedir(), '.local', 'share');
+  return join(dataHome, 'cc-daily', 'reports');
 }
 
 function reportPath(date: string): string {

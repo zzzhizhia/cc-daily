@@ -4,8 +4,8 @@ import { tmpdir } from 'os';
 import { join } from 'path';
 import type { ReportFrontmatter } from '../storage.js';
 
-// We mock os.homedir so that getReportsDir() returns <tmpDir>/.cc-daily/reports
-// (since getReportsDir = join(homedir(), '.cc-daily', 'reports'))
+// We mock os.homedir so that getReportsDir() returns <tmpDir>/.local/share/cc-daily/reports.
+// XDG_DATA_HOME is unset per-test so the homedir-based default path is used.
 let fakeHome: string;
 let tmpBase: string;
 
@@ -36,6 +36,7 @@ function makeFrontmatter(overrides: Partial<ReportFrontmatter> = {}): ReportFron
 beforeEach(async () => {
   tmpBase = await mkdtemp(join(tmpdir(), 'cc-daily-test-'));
   fakeHome = tmpBase;
+  delete process.env.XDG_DATA_HOME;
 });
 
 afterEach(async () => {
@@ -95,7 +96,7 @@ describe('list', () => {
 
   it('returns empty array when reports directory does not exist', async () => {
     // fakeHome already points to a fresh tmp dir but save hasn't been called,
-    // so .cc-daily/reports doesn't exist yet
+    // so .config/cc-daily/reports doesn't exist yet
     const reports = await list();
     expect(reports).toEqual([]);
   });
@@ -118,6 +119,18 @@ describe('exists', () => {
 
   it('returns false when file does not exist', async () => {
     expect(await exists('2026-03-27')).toBe(false);
+  });
+});
+
+describe('getReportsDir path resolution', () => {
+  it('defaults to ~/.local/share/cc-daily/reports when XDG_DATA_HOME is unset', () => {
+    expect(getReportsDir()).toBe(join(fakeHome, '.local', 'share', 'cc-daily', 'reports'));
+  });
+
+  it('honors XDG_DATA_HOME when set', () => {
+    const customDataHome = join(tmpBase, 'custom-data');
+    process.env.XDG_DATA_HOME = customDataHome;
+    expect(getReportsDir()).toBe(join(customDataHome, 'cc-daily', 'reports'));
   });
 });
 
@@ -146,7 +159,7 @@ describe('load with malformed content', () => {
 
 describe('save creates directory if not exists', () => {
   it('creates nested directory structure (mkdirp)', async () => {
-    // The .cc-daily/reports dir doesn't exist yet in the fresh tmp home
+    // The .config/cc-daily/reports dir doesn't exist yet in the fresh tmp home
     expect(await exists('2026-03-27')).toBe(false);
     await save('2026-03-27', makeFrontmatter(), 'body');
     const report = await load('2026-03-27');
